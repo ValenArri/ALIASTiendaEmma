@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formas de pago — Tienda Emma</title>
+<meta name="description" content="Copiá el alias para transferir y pagá tu pedido en Tienda Emma.">
+<meta name="theme-color" content="#26A79B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Paleta Tienda Emma ---------- */
+  :root{
+    --teal:#26a79b;
+    --teal-600:#1e8c82;
+    --teal-700:#166b63;
+    --teal-200:#a8d9d3;
+    --teal-100:#dcefec;
+    --teal-50:#eef8f6;
+
+    --brown:#3f2619;
+    --brown-600:#5e3f2e;
+    --brown-400:#8c6f5e;
+
+    --bg:#fbf7f2;
+    --surface:#ffffff;
+    --surface-2:#f4efe8;
+    --border:#e6dcd1;
+
+    --text:var(--brown);
+    --text-soft:var(--brown-400);
+    --accent:var(--teal-600);
+    --accent-soft:var(--teal-50);
+    --ok:#1e8c82;
+
+    --radius:18px;
+    --shadow:0 1px 2px rgba(63,38,25,.05), 0 10px 30px rgba(63,38,25,.08);
+    --mono:ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --serif:"Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --script:"Pinyon Script", "Cormorant Garamond", cursive;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#111f1e;
+      --surface:#1a2c2a;
+      --surface-2:#223735;
+      --border:#2f4846;
+      --text:#f1ece5;
+      --text-soft:#a6c0bc;
+      --accent:#4fc4b7;
+      --accent-soft:#1d3330;
+      --ok:#4fc4b7;
+      --teal-100:#1d3330;
+      --teal-50:#1d3330;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#111f1e;
+    --surface:#1a2c2a;
+    --surface-2:#223735;
+    --border:#2f4846;
+    --text:#f1ece5;
+    --text-soft:#a6c0bc;
+    --accent:#4fc4b7;
+    --accent-soft:#1d3330;
+    --ok:#4fc4b7;
+    --teal-100:#1d3330;
+    --teal-50:#1d3330;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html,body{margin:0}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:660px;margin:0 auto;padding:0 16px 56px}
+
+  /* ---------- Cabecera con el logo ---------- */
+  .hero{
+    margin:0 -16px 28px;
+    padding:38px 16px 34px;
+    background:
+      radial-gradient(120% 90% at 20% 0%, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 55%),
+      linear-gradient(160deg, var(--teal) 0%, var(--teal-600) 55%, var(--teal-700) 100%);
+    text-align:center;
+    border-radius:0 0 28px 28px;
+  }
+  .sello{
+    width:138px;height:138px;margin:0 auto 18px;
+    background:#fff;border-radius:50%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    box-shadow:0 10px 30px rgba(22,107,99,.28);
+  }
+  .sello-tienda{
+    font-family:var(--serif);
+    font-size:.72rem;letter-spacing:.34em;text-indent:.34em;
+    text-transform:uppercase;color:var(--brown-600);
+  }
+  .sello-hoja{width:58px;height:13px;margin:6px 0 2px;color:var(--brown-400)}
+  .sello-emma{
+    font-family:var(--script);
+    font-size:2.85rem;line-height:1;color:var(--brown);
+    margin-top:-2px;
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(1.75rem,7vw,2.3rem);
+    line-height:1.15;letter-spacing:.01em;
+    margin:0 0 8px;color:#fff;
+  }
+  .hero p{
+    margin:0 auto;max-width:34ch;
+    color:rgba(255,255,255,.88);font-size:1rem;
+  }
+
+  /* ---------- Pasos ---------- */
+  .pasos{
+    list-style:none;counter-reset:p;margin:0 0 30px;padding:18px 20px;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);box-shadow:var(--shadow);
+  }
+  .pasos li{display:flex;gap:13px;align-items:flex-start;font-size:.95rem;color:var(--text-soft)}
+  .pasos li + li{margin-top:13px}
+  .pasos li::before{
+    counter-increment:p;content:counter(p);
+    flex:none;width:25px;height:25px;border-radius:50%;
+    background:var(--teal);color:#fff;
+    font-size:.78rem;font-weight:700;
+    display:grid;place-items:center;margin-top:1px;
+  }
+  .pasos b{color:var(--text);font-weight:600}
+
+  h2{
+    font-family:var(--serif);
+    font-size:1.05rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-soft);margin:0 0 14px;
+    display:flex;align-items:center;gap:12px;
+  }
+  h2::after{content:"";flex:1;height:1px;background:var(--border)}
+
+  /* ---------- Tarjetas de alias ---------- */
+  .cards{display:grid;gap:14px}
+  .card{
+    position:relative;overflow:hidden;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);
+  }
+  .card::before{
+    content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--teal);
+  }
+  .card-top{display:flex;align-items:center;gap:9px;margin-bottom:4px;flex-wrap:wrap}
+  .card-nombre{font-weight:650;font-size:1.06rem;letter-spacing:-.01em}
+  .tag{
+    font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+    background:var(--teal-100);color:var(--accent);
+    padding:4px 9px;border-radius:999px;
+  }
+  .titular{margin:0 0 14px;font-size:.86rem;color:var(--text-soft)}
+
+  .dato{margin-top:10px}
+  .dato-label{
+    display:block;font-size:.68rem;font-weight:700;text-transform:uppercase;
+    letter-spacing:.08em;color:var(--text-soft);margin-bottom:6px;
+  }
+  .copiar{
+    width:100%;display:flex;align-items:center;gap:12px;
+    background:var(--accent-soft);border:1px dashed var(--teal-200);
+    border-radius:12px;padding:13px 14px;
+    font:inherit;color:var(--text);text-align:left;cursor:pointer;
+    transition:border-color .15s, background .15s, transform .08s;
+  }
+  .copiar:hover{border-color:var(--teal);background:var(--teal-100)}
+  .copiar:active{transform:scale(.99)}
+  .copiar:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .copiar .valor{
+    flex:1 1 auto;min-width:0;
+    font-family:var(--mono);font-size:1.02rem;font-weight:600;
+    word-break:break-all;
+  }
+  .copiar .accion{
+    flex:none;display:inline-flex;align-items:center;gap:6px;
+    font-size:.8rem;font-weight:700;color:var(--accent);
+  }
+  .copiar .accion svg{width:15px;height:15px}
+  .copiar.listo{border-style:solid;border-color:var(--ok);background:transparent}
+  .copiar.listo .accion{color:var(--ok)}
+
+  /* ---------- Llamado a la acción ---------- */
+  .cta{
+    margin-top:30px;padding:24px 20px;text-align:center;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);box-shadow:var(--shadow);
+  }
+  .cta p{margin:0 0 16px;color:var(--text-soft);font-size:.95rem}
+  .cta p b{color:var(--text)}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    width:100%;padding:15px 20px;border-radius:12px;border:0;
+    background:linear-gradient(160deg, var(--teal) 0%, var(--teal-600) 100%);
+    color:#fff;
+    font:inherit;font-weight:700;font-size:1rem;
+    text-decoration:none;cursor:pointer;
+    box-shadow:0 6px 16px rgba(30,140,130,.28);
+    transition:filter .15s, transform .08s;
+  }
+  .btn:hover{filter:brightness(1.07)}
+  .btn:active{transform:scale(.99)}
+  .btn:focus-visible{outline:2px solid var(--teal-700);outline-offset:3px}
+  .btn svg{width:20px;height:20px;flex:none}
+  .btn-2{
+    margin-top:10px;background:transparent;color:var(--accent);
+    border:1.5px solid var(--teal-200);box-shadow:none;
+  }
+  .btn-2:hover{background:var(--accent-soft);filter:none}
+
+  .nota{margin:18px 0 0;font-size:.82rem;color:var(--text-soft);text-align:center}
+
+  /* ---------- Pie ---------- */
+  footer{
+    margin-top:34px;padding-top:26px;border-top:1px solid var(--border);
+    text-align:center;color:var(--text-soft);font-size:.87rem;
+  }
+  footer .f-marca{
+    font-family:var(--script);font-size:1.8rem;color:var(--accent);
+    display:block;margin-bottom:10px;line-height:1;
+  }
+  footer .f-horario{margin:0 0 4px}
+  footer .f-dir{margin:10px 0 0;font-family:var(--serif);font-size:1rem;letter-spacing:.02em}
+
+  /* ---------- Aviso flotante ---------- */
+  #toast{
+    position:fixed;left:50%;bottom:22px;transform:translate(-50%,160%);
+    display:flex;align-items:center;gap:9px;
+    background:var(--brown);color:#fdfaf6;
+    padding:12px 18px;border-radius:999px;
+    font-size:.9rem;font-weight:600;
+    box-shadow:0 10px 30px rgba(0,0,0,.28);
+    transition:transform .28s cubic-bezier(.2,.8,.3,1);
+    z-index:50;max-width:calc(100vw - 32px);
+    white-space:nowrap;
+  }
+  #toast.visible{transform:translate(-50%,0)}
+  #toast svg{width:17px;height:17px;flex:none;color:var(--teal-200)}
+
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important} }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="sello" aria-hidden="true">
+      <span class="sello-tienda">Tienda</span>
+      <svg class="sello-hoja" viewBox="0 0 64 14" fill="none" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 11.5C11 11.5 19 9 25 3.8"/>
+        <path d="M9.6 10.6c.2-2 1.5-3.5 3.4-3.9"/>
+        <path d="M15.6 8.5c.3-2 1.7-3.4 3.6-3.7"/>
+        <path d="M21 5.6c.4-1.9 1.6-3.1 3.4-3.4"/>
+        <path d="M61 11.5C53 11.5 45 9 39 3.8"/>
+        <path d="M54.4 10.6c-.2-2-1.5-3.5-3.4-3.9"/>
+        <path d="M48.4 8.5c-.3-2-1.7-3.4-3.6-3.7"/>
+        <path d="M43 5.6c-.4-1.9-1.6-3.1-3.4-3.4"/>
+        <circle cx="32" cy="3" r=".9" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="sello-emma">Emma</span>
+    </div>
+    <h1 id="titulo">Formas de pago</h1>
+    <p id="bajada">Copiá el alias que prefieras y transferí el total de tu pedido.</p>
+  </header>
+
+  <ol class="pasos">
+    <li><span><b>Copiá el alias</b> tocando cualquiera de las opciones de abajo.</span></li>
+    <li><span><b>Pegalo en Mercado Pago</b>, Lemon o la app de tu banco y hacé la transferencia.</span></li>
+    <li><span><b>Mandanos el comprobante</b> y preparamos tu pedido.</span></li>
+  </ol>
+
+  <h2>Alias disponibles</h2>
+  <div class="cards" id="cards"></div>
+
+  <div class="cta">
+    <p id="cta-texto">¿Ya copiaste el alias? <b>Abrí Mercado Pago</b> y pegalo para transferir.</p>
+    <a class="btn" id="btn-mp" href="#" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/><path d="M6 15h4"/>
+      </svg>
+      <span id="btn-mp-texto">Abrir Mercado Pago</span>
+    </a>
+    <a class="btn btn-2" id="btn-wa" href="#" target="_blank" rel="noopener noreferrer" hidden>
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.2 1.2-1.9 1.2-.5 0-1.2-.1-2.8-.8a10.6 10.6 0 0 1-4.3-3.9c-.6-1-.9-1.9-.9-2.6 0-.8.4-1.5.8-1.9.3-.3.6-.3.8-.3h.5c.2 0 .4 0 .6.5l.8 1.8c0 .2 0 .3-.1.5l-.4.5c-.2.2-.3.3-.1.5.5.9 1 1.5 1.8 2.1.6.5 1.1.7 1.3.8.2.1.3 0 .5-.1l.6-.7c.2-.2.3-.2.5-.1l1.7.8c.2.1.3.2.3.4s0 .8-.2 1.1Z"/>
+      </svg>
+      <span id="btn-wa-texto">Enviar comprobante</span>
+    </a>
+    <p class="nota" id="nota"></p>
+  </div>
+
+  <footer>
+    <span class="f-marca">Emma</span>
+    <p class="f-horario" id="f-horario"></p>
+    <p class="f-horario" id="f-horario-2"></p>
+    <p class="f-dir" id="f-dir"></p>
+  </footer>
+</div>
+
+<div id="toast" role="status" aria-live="polite" hidden>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="m20 6-11 11-5-5"/>
+  </svg>
+  <span id="toast-texto">Alias copiado</span>
+</div>
+
+<script>
+/* ==================================================================
+   EDITÁ SOLO ESTE BLOQUE
+   ------------------------------------------------------------------
+   Para agregar un alias: copiá un bloque { ... } entero y pegalo
+   dentro de "alias", separado por una coma.
+   Lo que no quieras mostrar (por ejemplo "cvu"), dejalo en "".
+   ================================================================== */
+const CONFIG = {
+  titulo: "Formas de pago",
+  bajada: "Copiá el alias que prefieras y transferí el total de tu pedido.",
+
+  // Botón principal. Si tenés link de pago de Mercado Pago poné el tuyo:
+  // "https://link.mercadopago.com.ar/tuusuario"
+  mercadoPago: {
+    url: "https://www.mercadopago.com.ar/",
+    texto: "Abrir Mercado Pago"
+  },
+
+  // Botón de WhatsApp para recibir el comprobante.
+  // Poné activo: true y tu número con código de país, sin + ni espacios.
+  whatsapp: {
+    activo: false,
+    numero: "5491100000000",
+    mensaje: "¡Hola Tienda Emma! Te paso el comprobante de mi pedido.",
+    texto: "Enviar comprobante por WhatsApp"
+  },
+
+  nota: "Verificá el nombre del titular antes de transferir.",
+
+  // ⚠️ Revisá que los titulares sean correctos.
+  alias: [
+    {
+      nombre: "Mercado Pago",
+      etiqueta: "Tienda",
+      titular: "Titular: Tienda Emma",
+      alias: "emma.2130.mp",
+      cvu: ""
+    },
+    {
+      nombre: "Lemon",
+      etiqueta: "Tienda",
+      titular: "Titular: Tienda Emma",
+      alias: "emma.2130.lemon",
+      cvu: ""
+    },
+    {
+      nombre: "Mercado Pago",
+      etiqueta: "Alternativo",
+      titular: "Titular: Rodrigo Arri",
+      alias: "arri.rodrigo.mp",
+      cvu: ""
+    },
+    {
+      nombre: "Lemon",
+      etiqueta: "Alternativo",
+      titular: "Titular: Rodrigo Arri",
+      alias: "arri.rodrigo.lemon",
+      cvu: ""
+    }
+  ],
+
+  // Datos del pie de página
+  horarios: [
+    "Lunes a viernes de 8:30 a 12 hs y de 16 a 19 hs",
+    "Sábados de 9 a 13 hs"
+  ],
+  direccion: "Pedro Arata 2130 · Don Torcuato"
+};
+/* ===================== FIN DEL BLOQUE EDITABLE ===================== */
+
+
+/* ---------- Render ---------- */
+const $ = (id) => document.getElementById(id);
+function texto(id, valor){ if (valor) $(id).textContent = valor; }
+
+texto("titulo", CONFIG.titulo);
+texto("bajada", CONFIG.bajada);
+$("nota").textContent = CONFIG.nota || "";
+texto("f-horario", (CONFIG.horarios || [])[0]);
+texto("f-horario-2", (CONFIG.horarios || [])[1]);
+texto("f-dir", CONFIG.direccion);
+
+const btnMp = $("btn-mp");
+btnMp.href = (CONFIG.mercadoPago && CONFIG.mercadoPago.url) || "https://www.mercadopago.com.ar/";
+texto("btn-mp-texto", CONFIG.mercadoPago && CONFIG.mercadoPago.texto);
+
+const wa = CONFIG.whatsapp || {};
+if (wa.activo && wa.numero) {
+  const btnWa = $("btn-wa");
+  btnWa.href = "https://wa.me/" + String(wa.numero).replace(/\D/g, "") +
+               (wa.mensaje ? "?text=" + encodeURIComponent(wa.mensaje) : "");
+  texto("btn-wa-texto", wa.texto);
+  btnWa.hidden = false;
+}
+
+const svgCopiar = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>';
+const svgListo  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m20 6-11 11-5-5"/></svg>';
+
+function botonCopiar(label, valor){
+  const bloque = document.createElement("div");
+  bloque.className = "dato";
+
+  const l = document.createElement("span");
+  l.className = "dato-label";
+  l.textContent = label;
+  bloque.appendChild(l);
+
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "copiar";
+  btn.setAttribute("aria-label", "Copiar " + label + ": " + valor);
+
+  const v = document.createElement("span");
+  v.className = "valor";
+  v.textContent = valor;
+
+  const a = document.createElement("span");
+  a.className = "accion";
+  a.innerHTML = svgCopiar + "<span>Copiar</span>";
+
+  btn.append(v, a);
+  btn.addEventListener("click", () => copiar(valor, btn, label));
+  bloque.appendChild(btn);
+  return bloque;
+}
+
+const contenedor = $("cards");
+(CONFIG.alias || []).forEach((item) => {
+  const card = document.createElement("article");
+  card.className = "card";
+
+  const top = document.createElement("div");
+  top.className = "card-top";
+  const nombre = document.createElement("span");
+  nombre.className = "card-nombre";
+  nombre.textContent = item.nombre || "Alias";
+  top.appendChild(nombre);
+  if (item.etiqueta) {
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = item.etiqueta;
+    top.appendChild(tag);
+  }
+  card.appendChild(top);
+
+  if (item.titular) {
+    const t = document.createElement("p");
+    t.className = "titular";
+    t.textContent = item.titular;
+    card.appendChild(t);
+  }
+
+  if (item.alias) card.appendChild(botonCopiar("Alias", item.alias));
+  if (item.cvu)   card.appendChild(botonCopiar(item.etiqueta || "CVU", item.cvu));
+
+  contenedor.appendChild(card);
+});
+
+
+/* ---------- Copiar al portapapeles ---------- */
+async function copiar(valor, btn, label){
+  let ok = false;
+
+  if (navigator.clipboard && window.isSecureContext) {
+    try { await navigator.clipboard.writeText(valor); ok = true; } catch (e) { ok = false; }
+  }
+
+  if (!ok) {
+    // Respaldo para http:// y para abrir el archivo directo desde la PC.
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = valor;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.top = "-1000px";
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, valor.length);
+      ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+    } catch (e) { ok = false; }
+  }
+
+  if (ok) {
+    marcarListo(btn);
+    avisar("¡Alias copiado!");
+    btnMp.focus({ preventScroll: true });
+  } else {
+    avisar("No se pudo copiar, copialo a mano");
+  }
+}
+
+let timerBtn;
+function marcarListo(btn){
+  document.querySelectorAll(".copiar.listo").forEach((b) => {
+    b.classList.remove("listo");
+    b.querySelector(".accion").innerHTML = svgCopiar + "<span>Copiar</span>";
+  });
+  btn.classList.add("listo");
+  btn.querySelector(".accion").innerHTML = svgListo + "<span>¡Copiado!</span>";
+  clearTimeout(timerBtn);
+  timerBtn = setTimeout(() => {
+    btn.classList.remove("listo");
+    btn.querySelector(".accion").innerHTML = svgCopiar + "<span>Copiar</span>";
+  }, 4000);
+}
+
+let timerToast;
+const toast = $("toast");
+function avisar(msg){
+  $("toast-texto").textContent = msg;
+  toast.hidden = false;
+  requestAnimationFrame(() => toast.classList.add("visible"));
+  clearTimeout(timerToast);
+  timerToast = setTimeout(() => {
+    toast.classList.remove("visible");
+    setTimeout(() => { toast.hidden = true; }, 300);
+  }, 3200);
+}
+</script>
+
+</body>
+</html>
