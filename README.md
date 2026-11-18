@@ -46,14 +46,21 @@ Borrá el bloque `{ ... }` completo, junto con la coma que lo separa del siguien
 Desde el celular intenta abrir **la app** de Mercado Pago. Si no está instalada,
 cae solo en la página web. Desde una computadora abre siempre la web.
 
-- **Android**: usa un *intent* apuntado al paquete `com.mercadopago.wallet` con un
-  link de respaldo, así que decide el propio navegador: app si está, web si no.
-- **iPhone**: abre `mercadopago://` y, si en un segundo y medio seguimos en la
-  página (señal de que la app no está), va solo a la web.
+**Esta página nunca se reemplaza.** El cliente salta a la app, y cuando vuelve al
+navegador sigue teniendo los alias a mano.
 
-> En un iPhone **sin** la app instalada, Safari a veces muestra un cartel de error
-> antes de que actúe el respaldo. Si te molesta, poné `appScheme: ""` en el bloque
-> editable: el iPhone va derecho a la web y el cartel no aparece más.
+- **Android**: el botón es un link a un *intent* apuntado al paquete
+  `com.mercadopago.wallet`, y se abre en una pestaña aparte. Decide el propio
+  navegador: si la app está la abre, y si no está usa el link de respaldo
+  (que carga en esa pestaña nueva, no en la nuestra).
+- **iPhone**: abre `mercadopago://` sin moverse de la página. Si en un segundo y
+  medio seguimos acá, es que la app no está: en vez de llevarte a ningún lado,
+  avisa *"No encontramos la app, tocá de nuevo"*, y el segundo toque abre la web
+  en una pestaña aparte.
+
+> En un iPhone **sin** la app instalada, Safari a veces muestra un cartel de error.
+> Si te molesta, poné `appScheme: ""` en el bloque editable: el iPhone va derecho
+> a la web (siempre en pestaña aparte) y el cartel no aparece más.
 
 En `mercadoPago.url` podés poner:
 

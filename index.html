@@ -434,25 +434,22 @@ const esAndroid = /Android/i.test(ua);
 const esIOS = /iPad|iPhone|iPod/.test(ua) ||
               (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-if (esAndroid || esIOS) {
-  // En el celular queremos saltar a la app, no abrir otra pestaña del navegador.
-  btnMp.removeAttribute("target");
-  btnMp.removeAttribute("rel");
-}
+// ANDROID: el botón es un link al intent y se abre en una pestaña APARTE
+// (target="_blank"). Así esta página nunca se pierde: el cliente vuelve al
+// navegador y sigue teniendo los alias a mano.
+if (esAndroid) btnMp.href = intentAndroid();
+
+// Se enciende si en iPhone la app no aparece; con el segundo toque vamos a la web.
+let appNoEncontrada = false;
 
 btnMp.addEventListener("click", (e) => {
-  if (esAndroid) {
-    // El navegador abre la app; si no está instalada usa solo el link de respaldo.
-    e.preventDefault();
-    window.location.href = intentAndroid();
-    return;
-  }
-  if (esIOS && mp.appScheme) {
-    e.preventDefault();
-    abrirEnIOS(mp.appScheme);
-  }
-  // iOS sin appScheme: el link https lo toma la app sola (Universal Links).
-  // Computadora: se abre la web de Mercado Pago, como siempre.
+  // Android, computadora, o iPhone que ya probó y no tiene la app:
+  // dejamos que el link haga lo suyo en una pestaña nueva.
+  if (!esIOS || !mp.appScheme || appNoEncontrada) return;
+
+  // iPhone: saltamos a la app sin movernos de esta página.
+  e.preventDefault();
+  abrirEnIOS(mp.appScheme);
 });
 
 function intentAndroid(){
@@ -471,12 +468,17 @@ function abrirEnIOS(esquema){
   document.addEventListener("visibilitychange", marcar, { once: true });
   window.addEventListener("pagehide", marcar, { once: true });
 
+  // Esto abre la app sin cambiar de página: si vuelve al navegador, sigue acá.
   window.location.href = esquema;
 
-  // Si en un segundo y medio seguimos acá, la app no estaba: vamos a la web.
   setTimeout(() => {
     document.removeEventListener("visibilitychange", marcar);
-    if (!salio && !document.hidden) window.location.href = urlWebMp;
+    if (salio || document.hidden) return;  // la app abrió: no tocamos nada
+
+    // No está instalada. No nos vamos solos: avisamos y el próximo toque
+    // abre la web en una pestaña aparte.
+    appNoEncontrada = true;
+    avisar("No encontramos la app, tocá de nuevo");
   }, 1500);
 }
 
