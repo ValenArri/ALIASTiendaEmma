@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4 QR en una hoja A4 — Tienda Emma</title>
+<meta name="description" content="Hoja A4 con cuatro códigos QR de Tienda Emma para imprimir y recortar.">
+<meta name="theme-color" content="#26A79B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#26a79b; --teal-700:#166b63; --teal-100:#dcefec;
+    --brown:#3f2619; --brown-600:#5e3f2e; --brown-400:#8c6f5e;
+    --corte:#c9bfb4;
+    --serif:"Cormorant Garamond", Georgia, serif;
+    --script:"Pinyon Script", cursive;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:#e9e4dd;color:var(--brown);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    padding:24px 16px 60px;
+  }
+
+  /* ---------- La hoja ---------- */
+  .hoja{
+    width:210mm;height:297mm;margin:0 auto;background:#fff;
+    display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;
+    box-shadow:0 10px 40px rgba(63,38,25,.18);
+  }
+  .celda{
+    border:1px dashed var(--corte);
+    padding:9mm 7mm;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;gap:0;
+  }
+
+  /* ---------- Contenido de cada cupón ---------- */
+  .sello{
+    width:22mm;height:22mm;border:.5mm solid var(--teal);border-radius:50%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    margin-bottom:4mm;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .sello-tienda{
+    font-family:var(--serif);font-size:5pt;letter-spacing:.3em;text-indent:.3em;
+    text-transform:uppercase;color:var(--brown-600);
+  }
+  .sello-hoja{width:11mm;height:2.4mm;margin:.6mm 0 .2mm;color:var(--brown-400)}
+  .sello-emma{font-family:var(--script);font-size:15pt;line-height:1;color:var(--brown)}
+
+  .titulo{
+    font-family:var(--serif);font-weight:600;
+    font-size:16pt;line-height:1.15;margin:0 0 1.5mm;color:var(--teal-700);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .sub{margin:0 0 5mm;font-size:8.5pt;color:var(--brown-400);max-width:62mm;line-height:1.35}
+
+  .marco{
+    border:.4mm solid var(--teal-100);border-radius:3mm;padding:3mm;line-height:0;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .marco img{width:48mm;height:48mm;display:block}
+
+  .url{
+    margin:5mm 0 0;font-family:var(--serif);font-size:9pt;
+    color:var(--brown-600);word-break:break-all;max-width:70mm;line-height:1.3;
+  }
+  .dir{margin:2.5mm 0 0;font-size:7.5pt;color:var(--brown-400)}
+
+  /* ---------- Botonera (no se imprime) ---------- */
+  .acciones{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:0 0 24px}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 22px;border-radius:11px;border:1.5px solid var(--teal);
+    background:#fff;color:var(--teal-700);
+    font:inherit;font-weight:700;font-size:.92rem;text-decoration:none;cursor:pointer;
+  }
+  .btn:hover{background:var(--teal-100)}
+  .btn-full{background:var(--teal);color:#fff;border-color:var(--teal)}
+  .btn-full:hover{background:var(--teal-700)}
+  .ayuda{max-width:210mm;margin:0 auto 22px;text-align:center;font-size:.86rem;color:var(--brown-400);line-height:1.6}
+
+  /* ---------- Impresión ---------- */
+  @page{ size:A4; margin:0 }
+  @media print{
+    body{background:#fff;padding:0}
+    .acciones,.ayuda{display:none}
+    .hoja{box-shadow:none;margin:0;width:210mm;height:297mm}
+  }
+
+  /* Pantallas angostas: la hoja se encoge para poder verla entera */
+  @media screen and (max-width:230mm){
+    .hoja{transform:scale(.62);transform-origin:top center;margin-bottom:-113mm}
+  }
+</style>
+</head>
+<body>
+
+<div class="acciones">
+  <button class="btn btn-full" type="button" onclick="window.print()">Imprimir la hoja</button>
+  <a class="btn" href="qr.html">Ver el cartel grande</a>
+  <a class="btn" href="index.html">Ver la página de pagos</a>
+</div>
+
+<p class="ayuda">
+  Cuatro códigos iguales en una hoja A4. Imprimila, cortá por las líneas de puntos
+  y te quedan cuatro cupones para el mostrador, las bolsas o los pedidos.<br>
+  Al imprimir, elegí <b>tamaño real</b> o <b>100 %</b> (no “ajustar a la página”)
+  y marcá <b>imprimir colores e imágenes de fondo</b>.
+</p>
+
+<div class="hoja">
+
+  <div class="celda">
+    <div class="sello" aria-hidden="true">
+      <span class="sello-tienda">Tienda</span>
+      <svg class="sello-hoja" viewBox="0 0 64 14" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 11.5C11 11.5 19 9 25 3.8"/><path d="M9.6 10.6c.2-2 1.5-3.5 3.4-3.9"/>
+        <path d="M15.6 8.5c.3-2 1.7-3.4 3.6-3.7"/><path d="M21 5.6c.4-1.9 1.6-3.1 3.4-3.4"/>
+        <path d="M61 11.5C53 11.5 45 9 39 3.8"/><path d="M54.4 10.6c-.2-2-1.5-3.5-3.4-3.9"/>
+        <path d="M48.4 8.5c-.3-2-1.7-3.4-3.6-3.7"/><path d="M43 5.6c-.4-1.9-1.6-3.1-3.4-3.4"/>
+        <circle cx="32" cy="3" r="1.1" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="sello-emma">Emma</span>
+    </div>
+    <p class="titulo">Escaneá para pagar</p>
+    <p class="sub">Todas nuestras formas de pago en un solo lugar.</p>
+    <div class="marco"><img src="qr.svg" alt="Código QR de las formas de pago de Tienda Emma"></div>
+    <p class="url">valenarri.github.io/ALIASTiendaEmma</p>
+    <p class="dir">Pedro Arata 2130 · Don Torcuato</p>
+  </div>
+
+  <div class="celda">
+    <div class="sello" aria-hidden="true">
+      <span class="sello-tienda">Tienda</span>
+      <svg class="sello-hoja" viewBox="0 0 64 14" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 11.5C11 11.5 19 9 25 3.8"/><path d="M9.6 10.6c.2-2 1.5-3.5 3.4-3.9"/>
+        <path d="M15.6 8.5c.3-2 1.7-3.4 3.6-3.7"/><path d="M21 5.6c.4-1.9 1.6-3.1 3.4-3.4"/>
+        <path d="M61 11.5C53 11.5 45 9 39 3.8"/><path d="M54.4 10.6c-.2-2-1.5-3.5-3.4-3.9"/>
+        <path d="M48.4 8.5c-.3-2-1.7-3.4-3.6-3.7"/><path d="M43 5.6c-.4-1.9-1.6-3.1-3.4-3.4"/>
+        <circle cx="32" cy="3" r="1.1" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="sello-emma">Emma</span>
+    </div>
+    <p class="titulo">Escaneá para pagar</p>
+    <p class="sub">Todas nuestras formas de pago en un solo lugar.</p>
+    <div class="marco"><img src="qr.svg" alt="Código QR de las formas de pago de Tienda Emma"></div>
+    <p class="url">valenarri.github.io/ALIASTiendaEmma</p>
+    <p class="dir">Pedro Arata 2130 · Don Torcuato</p>
+  </div>
+
+  <div class="celda">
+    <div class="sello" aria-hidden="true">
+      <span class="sello-tienda">Tienda</span>
+      <svg class="sello-hoja" viewBox="0 0 64 14" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 11.5C11 11.5 19 9 25 3.8"/><path d="M9.6 10.6c.2-2 1.5-3.5 3.4-3.9"/>
+        <path d="M15.6 8.5c.3-2 1.7-3.4 3.6-3.7"/><path d="M21 5.6c.4-1.9 1.6-3.1 3.4-3.4"/>
+        <path d="M61 11.5C53 11.5 45 9 39 3.8"/><path d="M54.4 10.6c-.2-2-1.5-3.5-3.4-3.9"/>
+        <path d="M48.4 8.5c-.3-2-1.7-3.4-3.6-3.7"/><path d="M43 5.6c-.4-1.9-1.6-3.1-3.4-3.4"/>
+        <circle cx="32" cy="3" r="1.1" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="sello-emma">Emma</span>
+    </div>
+    <p class="titulo">Escaneá para pagar</p>
+    <p class="sub">Todas nuestras formas de pago en un solo lugar.</p>
+    <div class="marco"><img src="qr.svg" alt="Código QR de las formas de pago de Tienda Emma"></div>
+    <p class="url">valenarri.github.io/ALIASTiendaEmma</p>
+    <p class="dir">Pedro Arata 2130 · Don Torcuato</p>
+  </div>
+
+  <div class="celda">
+    <div class="sello" aria-hidden="true">
+      <span class="sello-tienda">Tienda</span>
+      <svg class="sello-hoja" viewBox="0 0 64 14" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 11.5C11 11.5 19 9 25 3.8"/><path d="M9.6 10.6c.2-2 1.5-3.5 3.4-3.9"/>
+        <path d="M15.6 8.5c.3-2 1.7-3.4 3.6-3.7"/><path d="M21 5.6c.4-1.9 1.6-3.1 3.4-3.4"/>
+        <path d="M61 11.5C53 11.5 45 9 39 3.8"/><path d="M54.4 10.6c-.2-2-1.5-3.5-3.4-3.9"/>
+        <path d="M48.4 8.5c-.3-2-1.7-3.4-3.6-3.7"/><path d="M43 5.6c-.4-1.9-1.6-3.1-3.4-3.4"/>
+        <circle cx="32" cy="3" r="1.1" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="sello-emma">Emma</span>
+    </div>
+    <p class="titulo">Escaneá para pagar</p>
+    <p class="sub">Todas nuestras formas de pago en un solo lugar.</p>
+    <div class="marco"><img src="qr.svg" alt="Código QR de las formas de pago de Tienda Emma"></div>
+    <p class="url">valenarri.github.io/ALIASTiendaEmma</p>
+    <p class="dir">Pedro Arata 2130 · Don Torcuato</p>
+  </div>
+
+</div>
+
+</body>
+</html>

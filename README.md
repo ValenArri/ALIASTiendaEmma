@@ -9,6 +9,8 @@ No necesita instalar nada. Archivos:
 | ------------ | ------------------------------------------------------------- |
 | `index.html` | la página con los alias (es la que ven los clientes)           |
 | `qr.html`    | cartel con el QR, listo para imprimir o descargar              |
+| `qr-a4.pdf`  | **hoja A4 con 4 QR para cortar** — imprimilo y listo           |
+| `qr-a4.html` | la misma hoja en versión web, por si querés retocarla          |
 | `qr.png`     | el QR en 1080 × 1080, para WhatsApp e Instagram                |
 | `qr.svg`     | el QR vectorial, para carteles grandes sin perder calidad      |
 
