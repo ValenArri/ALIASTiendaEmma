@@ -122,23 +122,6 @@
     color:rgba(255,255,255,.88);font-size:1rem;
   }
 
-  /* ---------- Pasos ---------- */
-  .pasos{
-    list-style:none;counter-reset:p;margin:0 0 30px;padding:18px 20px;
-    background:var(--surface);border:1px solid var(--border);
-    border-radius:var(--radius);box-shadow:var(--shadow);
-  }
-  .pasos li{display:flex;gap:13px;align-items:flex-start;font-size:.95rem;color:var(--text-soft)}
-  .pasos li + li{margin-top:13px}
-  .pasos li::before{
-    counter-increment:p;content:counter(p);
-    flex:none;width:25px;height:25px;border-radius:50%;
-    background:var(--teal);color:#fff;
-    font-size:.78rem;font-weight:700;
-    display:grid;place-items:center;margin-top:1px;
-  }
-  .pasos b{color:var(--text);font-weight:600}
-
   h2{
     font-family:var(--serif);
     font-size:1.05rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
@@ -275,14 +258,8 @@
       <span class="sello-emma">Emma</span>
     </div>
     <h1 id="titulo">Formas de pago</h1>
-    <p id="bajada">Copiá el alias que prefieras y transferí el total de tu pedido.</p>
+    <p id="bajada">Copiá el alias indicado para realizar la transferencia.</p>
   </header>
-
-  <ol class="pasos">
-    <li><span><b>Copiá el alias</b> tocando cualquiera de las opciones de abajo.</span></li>
-    <li><span><b>Pegalo en Mercado Pago</b>, Lemon o la app de tu banco y hacé la transferencia.</span></li>
-    <li><span><b>Mandanos el comprobante</b> y preparamos tu pedido.</span></li>
-  </ol>
 
   <h2>Alias disponibles</h2>
   <div class="cards" id="cards"></div>
@@ -329,7 +306,7 @@
    ================================================================== */
 const CONFIG = {
   titulo: "Formas de pago",
-  bajada: "Copiá el alias que prefieras y transferí el total de tu pedido.",
+  bajada: "Copiá el alias indicado para realizar la transferencia.",
 
   // Botón principal. Si tenés link de pago de Mercado Pago poné el tuyo:
   // "https://link.mercadopago.com.ar/tuusuario"
@@ -353,29 +330,29 @@ const CONFIG = {
   alias: [
     {
       nombre: "Mercado Pago",
-      etiqueta: "Tienda",
-      titular: "Titular: Tienda Emma",
+      etiqueta: "",
+      titular: "Titular: Lorena Mareschi",
       alias: "emma.2130.mp",
       cvu: ""
     },
     {
       nombre: "Lemon",
-      etiqueta: "Tienda",
-      titular: "Titular: Tienda Emma",
+      etiqueta: "",
+      titular: "Titular: Lorena Mareschi",
       alias: "emma.2130.lemon",
       cvu: ""
     },
     {
       nombre: "Mercado Pago",
-      etiqueta: "Alternativo",
-      titular: "Titular: Rodrigo Arri",
+      etiqueta: "",
+      titular: "Titular: Rodrigo Nahuel Arri Gonzalo",
       alias: "arri.rodrigo.mp",
       cvu: ""
     },
     {
       nombre: "Lemon",
-      etiqueta: "Alternativo",
-      titular: "Titular: Rodrigo Arri",
+      etiqueta: "",
+      titular: "Titular: Rodrigo Nahuel Arri Gonzalo",
       alias: "arri.rodrigo.lemon",
       cvu: ""
     }

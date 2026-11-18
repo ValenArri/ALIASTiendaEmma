@@ -3,7 +3,17 @@
 Página web de una sola pantalla donde los clientes copian el alias para transferir
 y los lleva a Mercado Pago.
 
-Es un único archivo, [`index.html`](index.html). No necesita instalar nada.
+No necesita instalar nada. Archivos:
+
+| Archivo      | Qué es                                                        |
+| ------------ | ------------------------------------------------------------- |
+| `index.html` | la página con los alias (es la que ven los clientes)           |
+| `qr.html`    | cartel con el QR, listo para imprimir o descargar              |
+| `qr.png`     | el QR en 1080 × 1080, para WhatsApp e Instagram                |
+| `qr.svg`     | el QR vectorial, para carteles grandes sin perder calidad      |
+
+Online: **https://valenarri.github.io/ALIASTiendaEmma/**
+Cartel del QR: **https://valenarri.github.io/ALIASTiendaEmma/qr.html**
 
 ---
 
@@ -73,6 +83,14 @@ Ese link es el que les pasás a los clientes por WhatsApp o Instagram.
 
 Hacé doble clic en `index.html` y se abre en el navegador.
 Se ve igual que publicada, pero el botón de copiar puede no andar (ver aviso de arriba).
+
+---
+
+## Si cambiás la dirección de la página
+
+El QR apunta a `https://valenarri.github.io/ALIASTiendaEmma/`. Si algún día cambiás
+el nombre del repositorio o le ponés un dominio propio, hay que generar el QR de nuevo
+(los archivos `qr.png` y `qr.svg` quedan viejos y dejan de llevar al lugar correcto).
 
 ---
 

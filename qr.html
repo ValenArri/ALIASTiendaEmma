@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR para imprimir — Tienda Emma</title>
+<meta name="description" content="Cartel con el código QR de las formas de pago de Tienda Emma, listo para imprimir.">
+<meta name="theme-color" content="#26A79B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#26a79b; --teal-600:#1e8c82; --teal-700:#166b63;
+    --brown:#3f2619; --brown-600:#5e3f2e; --brown-400:#8c6f5e;
+    --bg:#fbf7f2;
+    --serif:"Cormorant Garamond", Georgia, serif;
+    --script:"Pinyon Script", cursive;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg);color:var(--brown);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    display:flex;flex-direction:column;align-items:center;
+    padding:28px 16px 56px;
+  }
+
+  .cartel{
+    width:100%;max-width:440px;
+    background:linear-gradient(165deg, var(--teal) 0%, var(--teal-600) 55%, var(--teal-700) 100%);
+    border-radius:26px;padding:30px 26px 26px;text-align:center;
+    box-shadow:0 14px 40px rgba(22,107,99,.25);
+  }
+  .sello{
+    width:118px;height:118px;margin:0 auto 20px;background:#fff;border-radius:50%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    box-shadow:0 8px 22px rgba(22,107,99,.25);
+  }
+  .sello-tienda{font-family:var(--serif);font-size:.64rem;letter-spacing:.34em;text-indent:.34em;text-transform:uppercase;color:var(--brown-600)}
+  .sello-hoja{width:50px;height:11px;margin:5px 0 1px;color:var(--brown-400)}
+  .sello-emma{font-family:var(--script);font-size:2.4rem;line-height:1;color:var(--brown);margin-top:-2px}
+
+  .cartel h1{
+    font-family:var(--serif);font-weight:500;
+    font-size:1.85rem;line-height:1.2;margin:0 0 6px;color:#fff;
+  }
+  .cartel .sub{margin:0 0 22px;color:rgba(255,255,255,.9);font-size:.97rem}
+
+  .marco{background:#fff;border-radius:18px;padding:16px;display:inline-block;line-height:0}
+  .marco img{width:100%;max-width:272px;height:auto;display:block}
+
+  .url{
+    margin:20px 0 0;font-family:var(--serif);font-size:.95rem;
+    color:rgba(255,255,255,.95);word-break:break-all;letter-spacing:.01em;
+  }
+  .pie{margin:16px 0 0;font-size:.82rem;color:rgba(255,255,255,.75)}
+
+  .acciones{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:26px}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 20px;border-radius:11px;border:1.5px solid var(--teal);
+    background:#fff;color:var(--teal-700);
+    font:inherit;font-weight:700;font-size:.92rem;
+    text-decoration:none;cursor:pointer;
+  }
+  .btn:hover{background:#eef8f6}
+  .btn-full{background:var(--teal);color:#fff;border-color:var(--teal)}
+  .btn-full:hover{background:var(--teal-600)}
+  .ayuda{margin:18px 0 0;max-width:440px;text-align:center;font-size:.85rem;color:var(--brown-400)}
+
+  @media print{
+    body{background:#fff;padding:0}
+    .acciones,.ayuda{display:none}
+    .cartel{box-shadow:none;max-width:none;width:100%;border-radius:0;min-height:100vh;
+            display:flex;flex-direction:column;justify-content:center}
+    @page{margin:12mm}
+  }
+</style>
+</head>
+<body>
+
+<div class="cartel">
+  <div class="sello" aria-hidden="true">
+    <span class="sello-tienda">Tienda</span>
+    <svg class="sello-hoja" viewBox="0 0 64 14" fill="none" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 11.5C11 11.5 19 9 25 3.8"/>
+      <path d="M9.6 10.6c.2-2 1.5-3.5 3.4-3.9"/>
+      <path d="M15.6 8.5c.3-2 1.7-3.4 3.6-3.7"/>
+      <path d="M21 5.6c.4-1.9 1.6-3.1 3.4-3.4"/>
+      <path d="M61 11.5C53 11.5 45 9 39 3.8"/>
+      <path d="M54.4 10.6c-.2-2-1.5-3.5-3.4-3.9"/>
+      <path d="M48.4 8.5c-.3-2-1.7-3.4-3.6-3.7"/>
+      <path d="M43 5.6c-.4-1.9-1.6-3.1-3.4-3.4"/>
+      <circle cx="32" cy="3" r=".9" fill="currentColor" stroke="none"/>
+    </svg>
+    <span class="sello-emma">Emma</span>
+  </div>
+
+  <h1>Escaneá para pagar</h1>
+  <p class="sub">Acá están todos nuestros alias para transferir.</p>
+
+  <div class="marco">
+    <img src="qr.svg" alt="Código QR que lleva a las formas de pago de Tienda Emma" width="272" height="272">
+  </div>
+
+  <p class="url">valenarri.github.io/ALIASTiendaEmma</p>
+  <p class="pie">Pedro Arata 2130 · Don Torcuato</p>
+</div>
+
+<div class="acciones">
+  <button class="btn btn-full" type="button" onclick="window.print()">Imprimir</button>
+  <a class="btn" href="qr.png" download="qr-tienda-emma.png">Descargar PNG</a>
+  <a class="btn" href="qr.svg" download="qr-tienda-emma.svg">Descargar SVG</a>
+</div>
+
+<p class="ayuda">
+  El PNG (1080 × 1080) sirve para WhatsApp, Instagram o imprimir.
+  El SVG no pierde calidad por más que lo agrandes: usalo para carteles grandes.
+</p>
+
+</body>
+</html>
