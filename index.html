@@ -335,7 +335,7 @@ const CONFIG = {
     // ANDROID: nombre de la app en Google Play. No lo cambies.
     androidPackage: "com.mercadopago.wallet",
 
-    // iPHONE: así se llama la app para que el sistema la abra.
+    // iPHONE y ANDROID: así se llama la app para que el sistema la abra.
     // Si en un iPhone SIN la app instalada aparece un cartel feo de Safari,
     // dejá esto vacío ("") y el iPhone va directo a la web.
     appScheme: "mercadopago://"
@@ -434,16 +434,20 @@ const esAndroid = /Android/i.test(ua);
 const esIOS = /iPad|iPhone|iPod/.test(ua) ||
               (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-// ANDROID: el botón es un link al intent y se abre en una pestaña APARTE
-// (target="_blank"). Así esta página nunca se pierde: el cliente vuelve al
-// navegador y sigue teniendo los alias a mano.
-if (esAndroid) btnMp.href = intentAndroid();
-
 // Se enciende si en iPhone la app no aparece; con el segundo toque vamos a la web.
 let appNoEncontrada = false;
 
 btnMp.addEventListener("click", (e) => {
-  // Android, computadora, o iPhone que ya probó y no tiene la app:
+  // ANDROID: abrimos la app con su propio esquema (mercadopago://), en esta
+  // misma pestaña. Abrir una app no cambia la página: al volver, los alias
+  // siguen acá. Si no tiene la app, Android abre Google Play para instalarla.
+  if (esAndroid) {
+    e.preventDefault();
+    window.location.href = intentAndroid();
+    return;
+  }
+
+  // Computadora, o iPhone que ya probó y no tiene la app:
   // dejamos que el link haga lo suyo en una pestaña nueva.
   if (!esIOS || !mp.appScheme || appNoEncontrada) return;
 
@@ -453,13 +457,14 @@ btnMp.addEventListener("click", (e) => {
 });
 
 function intentAndroid(){
-  // Apuntamos el intent al mismo link https pero forzando el paquete de la app.
-  // Si la app está, la abre; si no, el navegador usa solo el link de respaldo.
+  // Antes apuntábamos a la web https forzando la app, pero la app de
+  // Mercado Pago no se registra para esa dirección y Chrome terminaba en la
+  // web. Usamos el mismo esquema que en iPhone: "mercadopago://home".
+  // Sin link de respaldo a propósito: si la app no está, Chrome abre Google
+  // Play en lugar de reemplazar esta página por la web.
   const paquete = mp.androidPackage || "com.mercadopago.wallet";
-  const respaldo = "S.browser_fallback_url=" + encodeURIComponent(urlWebMp);
-  const sinProtocolo = urlWebMp.replace(/^https?:\/\//, "");
-  return "intent://" + sinProtocolo + "#Intent;scheme=https;package=" + paquete +
-         ";" + respaldo + ";end";
+  const esquema = (mp.appScheme || "mercadopago://").replace(/:\/\/.*$/, "");
+  return "intent://home#Intent;scheme=" + esquema + ";package=" + paquete + ";end";
 }
 
 function abrirEnIOS(esquema){
