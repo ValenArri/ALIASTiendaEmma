@@ -140,7 +140,13 @@
   .card::before{
     content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--teal);
   }
-  .card-top{display:flex;align-items:center;gap:9px;margin-bottom:4px;flex-wrap:wrap}
+  .card-top{display:flex;align-items:center;gap:10px;margin-bottom:4px;flex-wrap:wrap}
+  .num{
+    flex:none;width:27px;height:27px;border-radius:50%;
+    background:var(--teal);color:#fff;
+    font-size:.84rem;font-weight:700;
+    display:grid;place-items:center;
+  }
   .card-nombre{font-weight:650;font-size:1.06rem;letter-spacing:-.01em}
   .tag{
     font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
@@ -218,6 +224,13 @@
   }
   footer .f-horario{margin:0 0 4px}
   footer .f-dir{margin:10px 0 0;font-family:var(--serif);font-size:1rem;letter-spacing:.02em}
+  footer .f-credito{
+    margin:20px auto 0;padding-top:16px;max-width:30ch;
+    border-top:1px solid var(--border);
+    font-size:.78rem;line-height:1.7;
+  }
+  footer .f-credito a{color:var(--accent);text-decoration:none}
+  footer .f-credito a:hover{text-decoration:underline}
 
   /* ---------- Aviso flotante ---------- */
   #toast{
@@ -265,7 +278,7 @@
   <div class="cards" id="cards"></div>
 
   <div class="cta">
-    <p id="cta-texto">¿Ya copiaste el alias? <b>Abrí Mercado Pago</b> y pegalo para transferir.</p>
+    <p id="cta-texto">¿Ya copiaste el alias? <b>Abrí la app de Mercado Pago</b> y pegalo para transferir.</p>
     <a class="btn" id="btn-mp" href="#" target="_blank" rel="noopener noreferrer">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/><path d="M6 15h4"/>
@@ -286,6 +299,10 @@
     <p class="f-horario" id="f-horario"></p>
     <p class="f-horario" id="f-horario-2"></p>
     <p class="f-dir" id="f-dir"></p>
+    <p class="f-credito" id="f-credito" hidden>
+      Desarrollado por <span id="f-autor"></span><br>
+      Contacto: <a id="f-mail" href="#"></a>
+    </p>
   </footer>
 </div>
 
@@ -308,11 +325,20 @@ const CONFIG = {
   titulo: "Formas de pago",
   bajada: "Copiá el alias indicado para realizar la transferencia.",
 
-  // Botón principal. Si tenés link de pago de Mercado Pago poné el tuyo:
-  // "https://link.mercadopago.com.ar/tuusuario"
+  // Botón principal. En el celular intenta abrir la APP de Mercado Pago;
+  // si no está instalada, cae solo en la página web.
   mercadoPago: {
+    // Si tenés link de pago propio poné el tuyo: "https://link.mercadopago.com.ar/tuusuario"
     url: "https://www.mercadopago.com.ar/",
-    texto: "Abrir Mercado Pago"
+    texto: "Abrir Mercado Pago",
+
+    // ANDROID: nombre de la app en Google Play. No lo cambies.
+    androidPackage: "com.mercadopago.wallet",
+
+    // iPHONE: así se llama la app para que el sistema la abra.
+    // Si en un iPhone SIN la app instalada aparece un cartel feo de Safari,
+    // dejá esto vacío ("") y el iPhone va directo a la web.
+    appScheme: "mercadopago://"
   },
 
   // Botón de WhatsApp para recibir el comprobante.
@@ -358,6 +384,12 @@ const CONFIG = {
     }
   ],
 
+  // Quién hizo la página (aparece abajo de todo)
+  credito: {
+    autor: "Arri Mareschi Valentina",
+    email: "valemare2005@gmail.com"
+  },
+
   // Datos del pie de página
   horarios: [
     "Lunes a viernes de 8:30 a 12 hs y de 16 a 19 hs",
@@ -379,9 +411,74 @@ texto("f-horario", (CONFIG.horarios || [])[0]);
 texto("f-horario-2", (CONFIG.horarios || [])[1]);
 texto("f-dir", CONFIG.direccion);
 
+const credito = CONFIG.credito || {};
+if (credito.autor || credito.email) {
+  texto("f-autor", credito.autor);
+  if (credito.email) {
+    const mail = $("f-mail");
+    mail.href = "mailto:" + credito.email;
+    mail.textContent = credito.email;
+  }
+  $("f-credito").hidden = false;
+}
+
+/* ---------- Botón de Mercado Pago (abre la app en el celular) ---------- */
+const mp = CONFIG.mercadoPago || {};
+const urlWebMp = mp.url || "https://www.mercadopago.com.ar/";
 const btnMp = $("btn-mp");
-btnMp.href = (CONFIG.mercadoPago && CONFIG.mercadoPago.url) || "https://www.mercadopago.com.ar/";
-texto("btn-mp-texto", CONFIG.mercadoPago && CONFIG.mercadoPago.texto);
+btnMp.href = urlWebMp;
+texto("btn-mp-texto", mp.texto);
+
+const ua = navigator.userAgent || "";
+const esAndroid = /Android/i.test(ua);
+const esIOS = /iPad|iPhone|iPod/.test(ua) ||
+              (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+if (esAndroid || esIOS) {
+  // En el celular queremos saltar a la app, no abrir otra pestaña del navegador.
+  btnMp.removeAttribute("target");
+  btnMp.removeAttribute("rel");
+}
+
+btnMp.addEventListener("click", (e) => {
+  if (esAndroid) {
+    // El navegador abre la app; si no está instalada usa solo el link de respaldo.
+    e.preventDefault();
+    window.location.href = intentAndroid();
+    return;
+  }
+  if (esIOS && mp.appScheme) {
+    e.preventDefault();
+    abrirEnIOS(mp.appScheme);
+  }
+  // iOS sin appScheme: el link https lo toma la app sola (Universal Links).
+  // Computadora: se abre la web de Mercado Pago, como siempre.
+});
+
+function intentAndroid(){
+  // Apuntamos el intent al mismo link https pero forzando el paquete de la app.
+  // Si la app está, la abre; si no, el navegador usa solo el link de respaldo.
+  const paquete = mp.androidPackage || "com.mercadopago.wallet";
+  const respaldo = "S.browser_fallback_url=" + encodeURIComponent(urlWebMp);
+  const sinProtocolo = urlWebMp.replace(/^https?:\/\//, "");
+  return "intent://" + sinProtocolo + "#Intent;scheme=https;package=" + paquete +
+         ";" + respaldo + ";end";
+}
+
+function abrirEnIOS(esquema){
+  let salio = false;
+  const marcar = () => { salio = true; };
+  document.addEventListener("visibilitychange", marcar, { once: true });
+  window.addEventListener("pagehide", marcar, { once: true });
+
+  window.location.href = esquema;
+
+  // Si en un segundo y medio seguimos acá, la app no estaba: vamos a la web.
+  setTimeout(() => {
+    document.removeEventListener("visibilitychange", marcar);
+    if (!salio && !document.hidden) window.location.href = urlWebMp;
+  }, 1500);
+}
 
 const wa = CONFIG.whatsapp || {};
 if (wa.activo && wa.numero) {
@@ -407,7 +504,7 @@ function botonCopiar(label, valor){
   const btn = document.createElement("button");
   btn.type = "button";
   btn.className = "copiar";
-  btn.setAttribute("aria-label", "Copiar " + label + ": " + valor);
+  btn.setAttribute("aria-label", "Copiar " + label + ": " + valor.split("").join(" "));
 
   const v = document.createElement("span");
   v.className = "valor";
@@ -424,12 +521,19 @@ function botonCopiar(label, valor){
 }
 
 const contenedor = $("cards");
-(CONFIG.alias || []).forEach((item) => {
+(CONFIG.alias || []).forEach((item, i) => {
   const card = document.createElement("article");
   card.className = "card";
 
   const top = document.createElement("div");
   top.className = "card-top";
+
+  const num = document.createElement("span");
+  num.className = "num";
+  num.setAttribute("aria-hidden", "true");
+  num.textContent = String(i + 1);
+  top.appendChild(num);
+
   const nombre = document.createElement("span");
   nombre.className = "card-nombre";
   nombre.textContent = item.nombre || "Alias";

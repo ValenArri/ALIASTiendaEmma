@@ -41,12 +41,29 @@ Copiá uno de los bloques enteros y pegalo abajo, separado por una coma:
 
 Borrá el bloque `{ ... }` completo, junto con la coma que lo separa del siguiente.
 
-### Link de Mercado Pago
+### El botón de Mercado Pago
+
+Desde el celular intenta abrir **la app** de Mercado Pago. Si no está instalada,
+cae solo en la página web. Desde una computadora abre siempre la web.
+
+- **Android**: usa un *intent* apuntado al paquete `com.mercadopago.wallet` con un
+  link de respaldo, así que decide el propio navegador: app si está, web si no.
+- **iPhone**: abre `mercadopago://` y, si en un segundo y medio seguimos en la
+  página (señal de que la app no está), va solo a la web.
+
+> En un iPhone **sin** la app instalada, Safari a veces muestra un cartel de error
+> antes de que actúe el respaldo. Si te molesta, poné `appScheme: ""` en el bloque
+> editable: el iPhone va derecho a la web y el cartel no aparece más.
 
 En `mercadoPago.url` podés poner:
 
 - **Tu link de pago**: `https://link.mercadopago.com.ar/tuusuario` — el cliente paga directo.
 - **La home de Mercado Pago**: `https://www.mercadopago.com.ar/` — el cliente pega el alias a mano. Es lo que está puesto ahora.
+
+### Numeración de los alias
+
+Los números (1, 2, 3…) se ponen solos según el orden de la lista `alias`.
+Si agregás, sacás o reordenás uno, se renumeran automáticamente.
 
 ### Botón de WhatsApp
 
